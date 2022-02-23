@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
+const basicAuth = require('express-basic-auth');
 
 const booksRouter = require('./routes/books');
 const borrowersRouter = require('./routes/borrower');
@@ -15,7 +16,13 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-//app.use(helmet());
+app.use(basicAuth({
+  users: {
+    "admin":"admin",
+    "esko":"esko123"
+  }
+}))
+app.use(helmet());
 app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
